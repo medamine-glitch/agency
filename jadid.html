@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>bidaya_immo</title>
+    <style>
+      body {
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        background-color: #f0f2f5;
+        color: #333;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 100vh;
+      }
+      .container {
+        max-width: 90%;
+        width: 600px;
+        background-color: white;
+        padding: 30px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        border-radius: 10px;
+      }
+      h2 {
+        color: #4caf50;
+        margin-bottom: 20px;
+      }
+      input,
+      button {
+        width: calc(100% - 20px);
+        padding: 15px;
+        margin: 10px auto;
+        border-radius: 8px;
+        border: 1px solid #ddd;
+        box-sizing: border-box;
+        font-size: 16px;
+      }
+      button {
+        background-color: #4caf50;
+        color: white;
+        border: none;
+        cursor: pointer;
+        font-weight: bold;
+      }
+      button:hover {
+        background-color: #45a049;
+      }
+      .button-group {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        gap: 10px;
+      }
+      .button-group button {
+        flex: 1;
+        min-width: calc(50% - 10px);
+        margin: 5px 0;
+        padding: 15px;
+      }
+      .step {
+        display: none;
+      }
+      .step.active {
+        display: block;
+      }
+      img {
+        width: 100%;
+        height: auto;
+        border-radius: 10px;
+        margin-bottom: 20px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div id="step1" class="step active">
+        <img src="xo9a.jpg" alt="Meknes Image 1" />
+        <h2>مرحبا ادخل المعلومات اسفله</h2>
+        <input type="text" id="name" placeholder="الاسم الكامل" required />
+        <input type="tel" id="phone" placeholder="رقم الهاتف " required />
+        <button onclick="validateStep1()">Continue</button>
+      </div>
+
+      <div id="step2" class="step">
+        <img src="meknes.jpg" alt="Meknes Image 2" />
+        <h2>في اي منطقة تريد</h2>
+        <div class="button-group">
+          <button onclick="selectOption('bassa')">bassatine</button>
+          <button onclick="selectOption('brj')">berj</button>
+          <button onclick="selectOption('sb')">sidi bouzkri</button>
+          <button onclick="selectOption('hamria')">hamria</button>
+          <button onclick="selectOption('route fes')">route fes</button>
+          <button onclick="selectOption('wisslane')">wisslane</button>
+          <button onclick="selectOption('plaisonce')">plaisonce</button>
+          <button onclick="selectOption('all')">toute meknes</button>
+        </div>
+        <button
+          id="continueStep2"
+          style="display: none"
+          onclick="validateStep2()"
+        >
+          Continue
+        </button>
+      </div>
+
+      <div id="step3" class="step">
+        <img src="money.jpg" alt="Meknes Image 3" />
+        <h2>اختر المبلغ المناسب لك</h2>
+        <div class="button-group">
+          <button onclick="selectOption('300000')">moins de 300,000 DH</button>
+          <button onclick="selectOption('400000')">
+            entre 300,000 DH et 500,000 DH
+          </button>
+          <button onclick="selectOption('500000')">
+            entre 500,000 DH et 700,000 DH
+          </button>
+          <button onclick="selectOption('700000')">
+            entre 700,000 DH et 1,000,000 DH
+          </button>
+          <button onclick="selectOption('1000000')">
+            PLUS QUE 1,000,000 DH
+          </button>
+        </div>
+        <button
+          id="continueStep3"
+          style="display: none"
+          onclick="validateStep3()"
+        >
+          Continue
+        </button>
+      </div>
+
+      <div id="step4" class="step">
+        <img src="thank_you.jpg" alt="Meknes Image 4" />
+        <h2>شكرا لاملائكم هده الاستمارة</h2>
+        <p>سوف نتصل بك قريبا لمزيد من المعلومات.</p>
+      </div>
+    </div>
+
+    <script>
+      let selectedRegion = "";
+      let selectedBudget = "";
+
+      function validateStep1() {
+        const name = document.getElementById("name").value.trim();
+        const phone = document.getElementById("phone").value.trim();
+        if (name && phone) {
+          nextStep(2);
+        } else {
+          alert("Please enter your name and phone number.");
+        }
+      }
+
+      function selectOption(value) {
+        if (document.getElementById("step2").classList.contains("active")) {
+          selectedRegion = value;
+          document.getElementById("continueStep2").style.display = "block";
+        } else if (
+          document.getElementById("step3").classList.contains("active")
+        ) {
+          selectedBudget = value;
+          document.getElementById("continueStep3").style.display = "block";
+        }
+      }
+
+      function validateStep2() {
+        if (selectedRegion) {
+          nextStep(3);
+        } else {
+          alert("Please select a region.");
+        }
+      }
+
+      function validateStep3() {
+        if (selectedBudget) {
+          nextStep(4);
+        } else {
+          alert("Please select your budget.");
+        }
+      }
+
+      function nextStep(step) {
+        document
+          .querySelectorAll(".step")
+          .forEach((s) => s.classList.remove("active"));
+        document.getElementById("step" + step).classList.add("active");
+      }
+    </script>
+  </body>
+</html>
